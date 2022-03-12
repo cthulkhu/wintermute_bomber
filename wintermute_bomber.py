@@ -112,8 +112,7 @@ while True:
                 t_peer = app.resolve_peer(p_target)
             except:
                 pass
-            if random.randint(0, 1):
-                time.sleep(1)
+            time.sleep(random.randint(0, 5))
             if t_peer is not None:
                 print("Target [" + p_target + "] locked.")
                 t_peers.append([p_target, t_peer, 0])
@@ -132,16 +131,17 @@ while True:
                 for i_peer in range(0, len(t_peers)):
                     if t_peers[i_peer][2] < reports_count:
                         finish = False
-                        queue = random.randint(1, 5)
-                        if queue > reports_count - t_peers[i_peer][2]:
-                            queue = reports_count - t_peers[i_peer][2]
-                        for i in range(0, queue):
-                            s = app.send(ReportPeer(peer = t_peers[i_peer][1], reason = InputReportReasonOther(), message = msg))
-                            if random.randint(0, 1):
-                                time.sleep(1)
-                            if s:
-                                t_peers[i_peer][2] += 1
-                                print("\033[" + str(3 + i_peer) + ";0H" + t_peers[i_peer][0] + "\033[30G" + str(t_peers[i_peer][2]) + "/" + str(reports_count))
+                        if random.randint(0, 1):
+                            queue = random.randint(1, 5)
+                            if queue > reports_count - t_peers[i_peer][2]:
+                                queue = reports_count - t_peers[i_peer][2]
+                            for i in range(0, queue):
+                                s = app.send(ReportPeer(peer = t_peers[i_peer][1], reason = InputReportReasonOther(), message = msg))
+                                if random.randint(0, 1):
+                                    time.sleep(1)
+                                if s:
+                                    t_peers[i_peer][2] += 1
+                                    print("\033[" + str(3 + i_peer) + ";0H" + t_peers[i_peer][0] + "\033[30G" + str(t_peers[i_peer][2]) + "/" + str(reports_count) + "\033[40G" + ("#" * int(20 * t_peers[i_peer][2] / reports_count)))
                 if finish:
                     break
             dt_end = datetime.datetime.now()
