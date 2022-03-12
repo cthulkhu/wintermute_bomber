@@ -8,6 +8,16 @@ from pyrogram import Client
 from pyrogram.raw.functions.account import ReportPeer
 from pyrogram.raw.types import InputReportReasonOther
 
+if not os.path.exists("settings.conf"):
+    print("No settings.conf file found.")
+    print("Generating blank settings.conf...")
+    with open("settings.conf", "w") as f_settings:
+        f_settings.write("# https://my.telegram.org/apps\n")
+        f_settings.write("# api__id = \n")
+        f_settings.write("# api__hash = \n")
+        print("Done. Have a look into it.")
+    sys.exit()
+
 api__id = ""
 api__hash = ""
 a_settings = []
