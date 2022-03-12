@@ -1,12 +1,29 @@
 import datetime
 import os
 import random
+import sys
 import time
 import glob
 from pyrogram import Client
 from pyrogram.raw.functions.account import ReportPeer
 from pyrogram.raw.types import InputReportReasonOther
-from apicred import api__id, api__hash
+
+api__id = ""
+api__hash = ""
+a_settings = []
+with open("settings.conf") as f_settings:
+    a_settings = f_settings.readlines()
+for line in a_settings:
+    if line.startswith("api__id"):
+        api__id = line.replace("api__id", "").strip(" =\n")
+    if line.startswith("api__hash"):
+        api__hash = line.replace("api__hash", "").strip(" =\n")
+if api__id == "":
+    print("No api__id found in settings.conf.")
+    sys.exit()
+if api__hash == "":
+    print("No api__hash found in settings.conf.")
+    sys.exit()
 
 app = None
 session_name = ""
@@ -37,7 +54,7 @@ while True:
         app.start()
         app.stop()
     elif res.lower() == "q":
-        exit()
+        sys.exit()
 
 app = Client(session_name, api__id, api__hash)
 app.start()
