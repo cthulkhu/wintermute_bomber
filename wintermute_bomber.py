@@ -39,8 +39,6 @@ if api__hash == "":
 app = None
 session_name = ""
 clrscr = "cls"
-if os.name == "posix":
-    clrscr = "clear"
 border_top = 4
 fstop = 3
 msg = "Propaganda of the war in Ukraine. Propaganda of the murder of Ukrainian citizens and soldiers."
@@ -105,7 +103,7 @@ while True:
         reports_count = int(input("Enter reports count (per target): "))
         t_peers = []
         for target in targets:
-            t_target = target.strip("\n")
+            t_target = target.strip(" \n")
             i_start = t_target.find("t.me/") + 5
             if i_start == 4:
                 i_start = 0
@@ -113,6 +111,19 @@ while True:
             if i_end == -1:
                 i_end = len(t_target)
             p_target = t_target[i_start:i_end]
+            if p_target == "":
+                continue
+            if p_target.startswith("+"):
+                continue
+            if p_target.startswith("joinchat"):
+                continue
+            dup = False
+            for t_peer in t_peers:
+                if t_peer[0] == p_target:
+                    dup = True
+                    break
+            if dup:
+                continue
             print("Target [" + p_target + "]:\033[30G\33[33msearching...\33[0m", end = "\r")
             t_peer = None
             try:
@@ -189,7 +200,7 @@ while True:
                     break
 
             dt_end = datetime.datetime.now()
-            print("\033[" + str(border_top + 2 + len(t_peers)) + ";0H[" + dt_end.strftime("%d.%m.%Y %H:%M:%S") + "] Done in " + str(dt_end - dt_begin) + ".")
+            print("\033[" + str(border_top + len(t_peers)) + ";0H[" + dt_end.strftime("%d.%m.%Y %H:%M:%S") + "] Done in " + str(dt_end - dt_begin) + ".")
 
         else:
             print("No peers.")
