@@ -103,7 +103,7 @@ while True:
         reports_count = int(input("Enter reports count (per target): "))
         t_peers = []
         for target in targets:
-            t_target = target.strip(" \n")
+            t_target = target.strip("@ \n")
             i_start = t_target.find("t.me/") + 5
             if i_start == 4:
                 i_start = 0
