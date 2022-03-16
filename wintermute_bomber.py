@@ -73,7 +73,7 @@ app.start()
 
 while True:
     os.system(clrscr)
-    print(session_name + ".session")
+    print("[" + session_name + ".session]")
     t_lists = glob.glob("*.targets")
     if len(t_lists) > 0:
         print("Available targets lists:")
@@ -139,7 +139,7 @@ while True:
         input("Enter to continue...")
         os.system(clrscr)
 
-        print(session_name + ".session " + tlist_name)
+        print("[" + session_name + ".session] [" + tlist_name + "]")
         if len(t_peers) > 0:
             reports_tcount = len(t_peers) * reports_count
             reports_tsent = 0
