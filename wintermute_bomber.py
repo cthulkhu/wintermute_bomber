@@ -103,7 +103,7 @@ while True:
         reports_count = int(input("Enter reports count (per target): "))
         t_peers = []
         for target in targets:
-            t_target = target.strip("@ \n")
+            t_target = target.strip(" \n")
             i_start = t_target.find("t.me/") + 5
             if i_start == 4:
                 i_start = 0
@@ -111,6 +111,7 @@ while True:
             if i_end == -1:
                 i_end = len(t_target)
             p_target = t_target[i_start:i_end]
+            p_target = p_target[p_target.find("@")+1:]
             if p_target == "":
                 continue
             if p_target.startswith("+"):
@@ -146,9 +147,9 @@ while True:
             reports_tfailed = 0
             dt_begin = datetime.datetime.now()
             print("[" + dt_begin.strftime("%d.%m.%Y %H:%M:%S") + "] Start bombing.")
-            print("\033[3;0H[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "] \33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K")
+            print("\033[" + str(border_top + len(t_peers)) + ";0H[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "]\033[30G\33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K\33[3;0H")
             for t_peer in t_peers:
-                print(t_peer[0] + "\033[30G\33[32m" + str(t_peer[2]) + "\33[0m/\33[31m" + str(t_peer[3]) + "\33[0m/" + str(reports_count))
+                print(t_peer[0] + "\033[30G\33[32m" + str(t_peer[2]) + "\33[0m/\33[31m" + str(t_peer[3]) + "\33[0m/" + str(reports_count) + "\033[50G[" + ("." * 20) + "]")
 
             while True:
                 finish = True
@@ -176,14 +177,16 @@ while True:
                                         t_peers[i_peer][4] += 1
                                         reports_tfailed += 1
 
-                                    print("\033[3;0H\33[K\r[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "] \33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K")
+                                    print("\033[" + str(border_top + 1 + len(t_peers)) + ";0H\33[K\r[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "]\033[30G\33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K")
                                     if t_peers[i_peer][2] >= reports_count:
-                                        print("\033[" + str(border_top + i_peer) + ";0H\33[K\r\33[32m" + t_peers[i_peer][0] + "\33[0m\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G" + ("\33[32m#\33[0m" * int(20 * t_peers[i_peer][2] / reports_count)))
+                                        print("\033[" + str(border_top + i_peer) + ";0H\33[K\r\33[32m" + t_peers[i_peer][0] + "\33[0m\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G[\33[32m" + ("=" * int(20 * t_peers[i_peer][2] / reports_count)) + ("." * (20 - int(20 * t_peers[i_peer][2] / reports_count))) + "\33[0m]")
                                         break
                                     if t_peers[i_peer][4] >= fstop:
-                                        print("\033[" + str(border_top + i_peer) + ";0H\33[K\r\33[31m" + t_peers[i_peer][0] + "\33[0m\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G" + ("\33[31m#\33[0m" * int(20 * t_peers[i_peer][2] / reports_count)))
+                                        reports_tcount -= (reports_count - t_peers[i_peer][2] - t_peers[i_peer][3])
+                                        print("\033[" + str(border_top + 1 + len(t_peers)) + ";0H\33[K\r[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "]\033[30G\33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K")
+                                        print("\033[" + str(border_top + i_peer) + ";0H\33[K\r\33[31m" + t_peers[i_peer][0] + "\33[0m\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G[\33[31m" + ("=" * int(20 * t_peers[i_peer][2] / reports_count)) + ("." * (20 - int(20 * t_peers[i_peer][2] / reports_count))) + "\33[0m]")
                                         break
-                                    print("\033[" + str(border_top + i_peer) + ";0H\33[K\r" + t_peers[i_peer][0] + "\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G" + ("#" * int(20 * t_peers[i_peer][2] / reports_count)))
+                                    print("\033[" + str(border_top + i_peer) + ";0H\33[K\r" + t_peers[i_peer][0] + "\033[30G\33[32m" + str(t_peers[i_peer][2]) + "\33[0m/\33[31m"  + str(t_peers[i_peer][3]) + "\33[0m/" + str(reports_count) + "\033[40G" + ("\33[31m!\33[0m" * t_peers[i_peer][4]) + "\033[50G[" + ("=" * int(20 * t_peers[i_peer][2] / reports_count)) + ("." * (20 - int(20 * t_peers[i_peer][2] / reports_count))) + "]")
 
                     if msvcrt.kbhit():
                         ch = str(msvcrt.getch())
@@ -200,7 +203,7 @@ while True:
                     break
 
             dt_end = datetime.datetime.now()
-            print("\033[" + str(border_top + len(t_peers)) + ";0H[" + dt_end.strftime("%d.%m.%Y %H:%M:%S") + "] Done in " + str(dt_end - dt_begin) + ".")
+            print("\033[" + str(border_top + 2 + len(t_peers)) + ";0H[" + dt_end.strftime("%d.%m.%Y %H:%M:%S") + "] Done in " + str(dt_end - dt_begin) + ".")
 
         else:
             print("No peers.")
