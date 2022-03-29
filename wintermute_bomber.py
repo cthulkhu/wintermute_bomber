@@ -147,7 +147,7 @@ while True:
             reports_tfailed = 0
             dt_begin = datetime.datetime.now()
             print("[" + dt_begin.strftime("%d.%m.%Y %H:%M:%S") + "] Start bombing.")
-            print("\033[" + str(border_top + len(t_peers)) + ";0H[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "]\033[30G\33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K\33[3;0H")
+            print("\033[" + str(border_top + 1 + len(t_peers)) + ";0H[" + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S") + "]\033[30G\33[32m" + str(reports_tsent) + "\33[0m/\33[31m" + str(reports_tfailed) + "\33[0m/" + str(reports_tcount) + "\33[K\33[3;0H")
             for t_peer in t_peers:
                 print(t_peer[0] + "\033[30G\33[32m" + str(t_peer[2]) + "\33[0m/\33[31m" + str(t_peer[3]) + "\33[0m/" + str(reports_count) + "\033[50G[" + ("." * 20) + "]")
 
